@@ -178,7 +178,7 @@
       <workItem from="1581513351450" duration="313000" />
       <workItem from="1581513698317" duration="170000" />
       <workItem from="1581513916606" duration="9000000" />
-      <workItem from="1581563297839" duration="78943000" />
+      <workItem from="1581563297839" duration="84415000" />
     </task>
     <servers />
   </component>
@@ -190,18 +190,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/csdn_spider/csdn_spider(note).py</url>
-          <line>93</line>
-          <option name="timeStamp" value="98" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/csdn_spider/csdn_spider(note).py</url>
-          <line>88</line>
-          <option name="timeStamp" value="99" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/csdn_spider/csdn_spider(note).py</url>
-          <line>127</line>
-          <option name="timeStamp" value="102" />
+          <line>92</line>
+          <option name="timeStamp" value="136" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
@@ -230,7 +220,7 @@
     <SUITE FILE_PATH="coverage/spider$socket_server.coverage" NAME="socket_server Coverage Results" MODIFIED="1581328053579" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/socket_test" />
     <SUITE FILE_PATH="coverage/spider$myqq_server.coverage" NAME="myqq_server Coverage Results" MODIFIED="1581329684688" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/socket_test" />
     <SUITE FILE_PATH="coverage/spider$css_selector_test_note_.coverage" NAME="css_selector_test(note) Coverage Results" MODIFIED="1581656128051" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spider_start" />
-    <SUITE FILE_PATH="coverage/spider$csdn_spider_note_.coverage" NAME="csdn_spider(note) Coverage Results" MODIFIED="1581783142080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/csdn_spider" />
+    <SUITE FILE_PATH="coverage/spider$csdn_spider_note_.coverage" NAME="csdn_spider(note) Coverage Results" MODIFIED="1581825217541" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/csdn_spider" />
     <SUITE FILE_PATH="coverage/spider$xpath_test_note_.coverage" NAME="xpath_test(note) Coverage Results" MODIFIED="1581688134211" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spider_start" />
   </component>
 </project>

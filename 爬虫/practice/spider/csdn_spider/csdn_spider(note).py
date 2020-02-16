@@ -95,10 +95,15 @@ def get_topic_data(topic_url):
 
 
     # 爬取完一页的内容爬取下一页的内容，通过下一页标签的链接找到下一页的链接继续调用此方法
+    # 要注意来自上一页的干扰，两者标签一样
     next_page_url=''
-    next_page_sel=sel.xpath("//a[@class='pageliststy next_page']/@href")
-    if next_page_sel:
-        next_page_url=parse.urljoin(domain,next_page_sel.extract()[0])
+    next_page_sel=sel.xpath("//a[@class='pageliststy next_page']")
+    for next_sel in  next_page_sel:
+        if "下" in next_sel.xpath("./text()").extract()[0]:
+            next_page_url=next_sel.xpath("./@href").extract()[0]
+            next_page_url = parse.urljoin(domain, next_page_url)
+            break
+    if next_page_url:
         get_topic_data(next_page_url)
 
 
@@ -107,33 +112,40 @@ def get_topic_data(topic_url):
 
 # 获取论坛内部数据页面数据，包括文章内容，结贴率，点赞数
 def get_article_data(url):
-    res_text=requests.get(url).text
+    res_text = requests.get(url).text
     sel = Selector(text=res_text)
     div_sel = sel.xpath("//div[starts-with(@id,'post-')]")
-    # 先爬取topic中的文字内容，结贴率，点赞数等数据，在第一个id为post开头的div中
-    authod_div =div_sel[0]
-    topic=Topic()
-    jtl=authod_div.xpath(".//div[@class='close_topic']/text()").extract()
-    if jtl:
-        jtl_text=jtl[0]
-        topic.jtl = float(re.search("(\d.*)%",jtl_text ).group(1))
-    praise_num=authod_div.xpath(".//label[@class='red_praise digg']//em/text()").extract()
-    if praise_num:
-        topic.praise_num=int(praise_num[0])
-    content=authod_div.xpath(".//div[@class='post_body post_body_min_h']/text()|.//div[contains(@style,'text-')]/text()").extract()
-    content=''.join(content).strip()
-    if content:
-        topic.content=content
+
     # 为了防止翻页后？page的干扰用正则表达式提取出来数字
-    url_str=url.split('/')[-1]
-    id_str=re.search("\d+",url_str).group(0)
-    topic.id=int(id_str)
-    exist_topic = Topic.select().where(Topic.id == topic.id)
-    if exist_topic:
-        topic.save()
+    url_str = url.split('/')[-1]
+    id_str = re.search("\d+", url_str).group(0)
+    # 如果是第二页，两者不等，此时才是获取帖子发起内容和结贴率等的时候，并且评论从第二个div开始
+    if id_str == url_str:
+        start_point = 1
+        # 先爬取topic中的文字内容，结贴率，点赞数等数据，在第一个id为post开头的div中
+        authod_div =div_sel[0]
+        topic=Topic()
+        jtl=authod_div.xpath(".//div[@class='close_topic']/text()").extract()
+        if jtl:
+            jtl_text=jtl[0]
+            topic.jtl = float(re.search("(\d.*)%",jtl_text ).group(1))
+        praise_num=authod_div.xpath(".//label[@class='red_praise digg']//em/text()").extract()
+        if praise_num:
+            topic.praise_num=int(praise_num[0])
+        content=authod_div.xpath(".//div[@class='post_body post_body_min_h']/text()|.//div[contains(@style,'text-')]/text()").extract()
+        content=''.join(content).strip()
+        if content:
+            topic.content=content
+
+        topic.id=int(id_str)
+        exist_topic = Topic.select().where(Topic.id == topic.id)
+        if exist_topic:
+            topic.save()
+    else:
+        start_point = 0
 
     # 爬取answer中的数据
-    for div in div_sel[1:]:
+    for div in div_sel[start_point:]:
         answer=Answer()
         answer.passage_id=int(id_str)
         message_id_str=div.xpath("./@id").extract()[0]
@@ -158,12 +170,16 @@ def get_article_data(url):
             answer.save(force_insert=True)
 
     # 爬取完一页的内容爬取下一页的内容，通过下一页标签的链接找到下一页的链接继续调用此方法
-    next_page_url=''
-    next_page_sel=sel.xpath("//a[@class='pageliststy next_page']/@href")
-    if next_page_sel:
-        next_page_url=parse.urljoin(domain,next_page_sel.extract()[0])
+    # 要注意来自上一页的干扰，两者标签一样
+    next_page_url = ''
+    next_page_sel = sel.xpath("//a[@class='pageliststy next_page']")
+    for next_sel in next_page_sel:
+        if "下" in next_sel.xpath("./text()").extract()[0]:
+            next_page_url = next_sel.xpath("./@href").extract()[0]
+            next_page_url = parse.urljoin(domain, next_page_url)
+            break
+    if next_page_url:
         get_article_data(next_page_url)
-
 
 
 # 获得主页数据
@@ -254,4 +270,7 @@ if __name__ == '__main__':
     all_last_url=get_last_url(all_left_menu_url)
     # print(all_last_url)
     # print(len(all_last_url))
-    get_topic_data(all_last_url[0])
+    for url in all_last_url:
+        get_topic_data(url)
+        print("一个区论坛信息采集完成")
+    print("论坛信息采集完成")
